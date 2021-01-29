@@ -24,9 +24,9 @@ func main() {
 	checkDatabaseConnection()
 	checkDatabaseProvision()
 	setupConfigIfNeeded(config)
+	checkConfigOk()
 	startStopService(service)
 	renewEncryption(renew)
-	checkConfigOk()
 }
 
 // Checks if the database connection
