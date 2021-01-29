@@ -6,6 +6,7 @@ import (
 	"github.com/domenicomastrangelo/safe/backup"
 	"github.com/domenicomastrangelo/safe/config"
 	"github.com/domenicomastrangelo/safe/database"
+	"github.com/domenicomastrangelo/safe/service"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -17,10 +18,10 @@ func main() {
 	// -renew
 	// -backup
 	var (
-		configFile   *string = flag.String("config", "", "")
-		service      *string = flag.String("service", "", "")
-		renew        *bool   = flag.Bool("renew", false, "")
-		shouldBackup *bool   = flag.Bool("backup", false, "")
+		configFile    *string = flag.String("config", "", "")
+		serviceToggle *string = flag.String("service", "", "")
+		renew         *bool   = flag.Bool("renew", false, "")
+		shouldBackup  *bool   = flag.Bool("backup", false, "")
 	)
 
 	flag.Parse()
@@ -29,54 +30,20 @@ func main() {
 	database.Check()
 	config.SetupIfNeeded(configFile)
 	config.Check()
-	startStopService(service)
-	renewEncryption(renew)
-}
 
-// Starts or stops the service based
-// on what the passed string says
-func startStopService(service *string) {
-	switch *service {
+	switch *serviceToggle {
 	case "start":
-		startListenTCP()
-		startListenBluetooth()
+		service.StartServices([]int{service.ServiceTCP, service.ServiceBluetooth})
 	case "stop":
-		stopListenTCP()
-		stopListenBluetooth()
+		service.StartServices([]int{service.ServiceTCP, service.ServiceBluetooth})
 	}
+
+	renewEncryption(renew)
 }
 
 // Generates a new encryption key,
 // decrypts and re-encrypts all the
 // data inside the database
 func renewEncryption(renew *bool) {
-
-}
-
-// Start listening for incoming
-// connections on port 1000
-// and dispatches the commands
-func startListenTCP() {
-
-}
-
-// Start listening for incoming
-// connections via Bluetooth
-// and dispatches the commands
-func startListenBluetooth() {
-
-}
-
-// Start listening for incoming
-// connections on port 1000
-// and dispatches the commands
-func stopListenTCP() {
-
-}
-
-// Start listening for incoming
-// connections via Bluetooth
-// and dispatches the commands
-func stopListenBluetooth() {
 
 }
