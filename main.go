@@ -6,6 +6,7 @@ import (
 	"github.com/domenicomastrangelo/safe/backup"
 	"github.com/domenicomastrangelo/safe/config"
 	"github.com/domenicomastrangelo/safe/database"
+	"github.com/domenicomastrangelo/safe/encryption"
 	"github.com/domenicomastrangelo/safe/service"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -38,12 +39,5 @@ func main() {
 		service.StartServices([]int{service.ServiceTCP, service.ServiceBluetooth})
 	}
 
-	renewEncryption(renew)
-}
-
-// Generates a new encryption key,
-// decrypts and re-encrypts all the
-// data inside the database
-func renewEncryption(renew *bool) {
-
+	encryption.RenewEncryption(renew)
 }
