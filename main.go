@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 
-	"github.com/domenicomastrangelo/safe/backup"
-	"github.com/domenicomastrangelo/safe/config"
-	"github.com/domenicomastrangelo/safe/database"
-	"github.com/domenicomastrangelo/safe/encryption"
-	"github.com/domenicomastrangelo/safe/service"
+	"./backup"
+	"./config"
+	"./database"
+	"./encryption"
+	"./service"
 	_ "github.com/mattn/go-sqlite3"
 )
 
