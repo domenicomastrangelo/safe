@@ -17,14 +17,17 @@ func main() {
 	// -service start starts the service
 	// -service stop stops the service
 	// -renew
+	// -backup
 	var (
 		config  *string = flag.String("config", "", "")
 		service *string = flag.String("service", "", "")
 		renew   *bool   = flag.Bool("renew", false, "")
+		backup  *bool   = flag.Bool("backup", false, "")
 	)
 
 	flag.Parse()
 
+	backupEverything(backup)
 	checkDatabaseConnection()
 	checkDatabaseProvision()
 	setupConfigIfNeeded(config)
@@ -151,5 +154,13 @@ func stopListenTCP() {
 // connections via Bluetooth
 // and dispatches the commands
 func stopListenBluetooth() {
+
+}
+
+// Executes the backup of the
+// app, its data and configuration
+// to the location previously
+// specified inside the configuration
+func backupEverything(backup *bool) {
 
 }
