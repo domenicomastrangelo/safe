@@ -2,11 +2,9 @@ package main
 
 import (
 	"flag"
-	"io/ioutil"
-	"log"
-	"os"
 
 	"github.com/domenicomastrangelo/safe/backup"
+	"github.com/domenicomastrangelo/safe/config"
 	"github.com/domenicomastrangelo/safe/database"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -19,7 +17,7 @@ func main() {
 	// -renew
 	// -backup
 	var (
-		config       *string = flag.String("config", "", "")
+		configFile   *string = flag.String("config", "", "")
 		service      *string = flag.String("service", "", "")
 		renew        *bool   = flag.Bool("renew", false, "")
 		shouldBackup *bool   = flag.Bool("backup", false, "")
@@ -29,34 +27,10 @@ func main() {
 
 	backup.Everything(shouldBackup)
 	database.Check()
-	setupConfigIfNeeded(config)
-	checkConfigOk()
+	config.SetupIfNeeded(configFile)
+	config.Check()
 	startStopService(service)
 	renewEncryption(renew)
-}
-
-// Checks if the user wants to
-// set/update the configuration
-func setupConfigIfNeeded(config *string) {
-	if len(*config) > 0 {
-		if _, err := os.Stat(*config); err == nil {
-			content, err := ioutil.ReadFile(*config)
-
-			if err != nil {
-				log.Fatal("Could not read file " + *config)
-			}
-
-			setupConfig(&content)
-		} else {
-			log.Fatal("Could not read file " + *config)
-		}
-	}
-}
-
-// Sets up the config based
-// on the passed yaml content
-func setupConfig(content *[]byte) {
-
 }
 
 // Starts or stops the service based
@@ -76,11 +50,6 @@ func startStopService(service *string) {
 // decrypts and re-encrypts all the
 // data inside the database
 func renewEncryption(renew *bool) {
-
-}
-
-// Checks if the configuration is OK
-func checkConfigOk() {
 
 }
 
