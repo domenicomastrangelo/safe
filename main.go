@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/domenicomastrangelo/safe/backup"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -19,15 +20,15 @@ func main() {
 	// -renew
 	// -backup
 	var (
-		config  *string = flag.String("config", "", "")
-		service *string = flag.String("service", "", "")
-		renew   *bool   = flag.Bool("renew", false, "")
-		backup  *bool   = flag.Bool("backup", false, "")
+		config       *string = flag.String("config", "", "")
+		service      *string = flag.String("service", "", "")
+		renew        *bool   = flag.Bool("renew", false, "")
+		shouldBackup *bool   = flag.Bool("backup", false, "")
 	)
 
 	flag.Parse()
 
-	backupEverything(backup)
+	backup.Everything(shouldBackup)
 	checkDatabaseConnection()
 	checkDatabaseProvision()
 	setupConfigIfNeeded(config)
@@ -154,13 +155,5 @@ func stopListenTCP() {
 // connections via Bluetooth
 // and dispatches the commands
 func stopListenBluetooth() {
-
-}
-
-// Executes the backup of the
-// app, its data and configuration
-// to the location previously
-// specified inside the configuration
-func backupEverything(backup *bool) {
 
 }
