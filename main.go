@@ -1,10 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -33,6 +37,37 @@ func main() {
 // is OK, otherwise makes the program
 // fail
 func checkDatabaseConnection() {
+	var (
+		dbFile           *os.File
+		db               *sql.DB
+		filePath         string
+		err              error
+		row              *sql.Row
+		testSelectResult string
+	)
+
+	if filePath, err = filepath.Abs("./db.sqlite"); err != nil {
+		if dbFile, err = os.Create(filePath); err != nil {
+			defer dbFile.Close()
+			log.Fatal("Database file does not exist. Could not create database file.")
+		}
+	}
+
+	if db, err = sql.Open("sqlite3", filePath); err != nil {
+		defer db.Close()
+		log.Fatal("Could not open the database file")
+	}
+
+	row = db.QueryRow("SELECT 1")
+
+	if err = row.Scan(&testSelectResult); err != nil {
+		log.Fatal("Could not execute test select statement")
+	}
+}
+
+// Checks that the database exists
+// or creates it
+func checkDatabaseExists(filePath string) {
 
 }
 
