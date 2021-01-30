@@ -56,12 +56,6 @@ func checkDatabaseConnection() *sql.DB {
 	return db
 }
 
-// Checks that the database exists
-// or creates it
-func checkDatabaseExists(filePath string) {
-
-}
-
 // Checks if the database needs to be
 // provisioned
 func checkDatabaseProvision() {
