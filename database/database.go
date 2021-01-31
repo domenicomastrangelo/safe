@@ -5,6 +5,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	// Importing sqlite3 driver
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // ConfigTable is the name of the
