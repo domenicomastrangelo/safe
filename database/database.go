@@ -42,19 +42,19 @@ func checkDatabaseConnection() *sql.DB {
 	if filePath, err = filepath.Abs("./" + DBFileName); err != nil {
 		if dbFile, err = os.Create(filePath); err != nil {
 			defer dbFile.Close()
-			log.Fatal("Database file does not exist. Could not create database file.")
+			log.Fatalln("Database file does not exist. Could not create database file.")
 		}
 	}
 
 	if db, err = sql.Open("sqlite3", filePath); err != nil {
 		defer db.Close()
-		log.Fatal("Could not open the database file")
+		log.Fatalln("Could not open the database file")
 	}
 
 	row = db.QueryRow("SELECT 1")
 
 	if err = row.Scan(&testSelectResult); err != nil {
-		log.Fatal("Could not execute test select statement")
+		log.Fatalln("Could not execute test select statement")
 	}
 
 	return db
