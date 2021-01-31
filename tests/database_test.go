@@ -13,7 +13,3 @@ func TestCheckDatabaseConnection(t *testing.T) {
 		t.FailNow()
 	}
 }
-
-func TestCheckDatabaseProvision(t *testing.T) {
-
-}
