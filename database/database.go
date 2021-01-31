@@ -7,7 +7,11 @@ import (
 	"path/filepath"
 )
 
-const configTable = "config"
+// ConfigTable is the name of the
+// database table for the configuration
+const ConfigTable = "config"
+
+// DBFileName is the SQLite database filename
 const DBFileName = "db.sqlite"
 
 // Check executes all the necessary
@@ -17,7 +21,7 @@ const DBFileName = "db.sqlite"
 // it will log.Fatal
 func Check() *sql.DB {
 	db := checkDatabaseConnection()
-	checkDatabaseProvision()
+	checkDatabaseProvision(db)
 
 	return db
 }
@@ -58,6 +62,6 @@ func checkDatabaseConnection() *sql.DB {
 
 // Checks if the database needs to be
 // provisioned
-func checkDatabaseProvision() {
+func checkDatabaseProvision(db *sql.DB) {
 
 }
