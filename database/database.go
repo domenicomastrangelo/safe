@@ -66,5 +66,40 @@ func checkDatabaseConnection() *sql.DB {
 // Checks if the database needs to be
 // provisioned
 func checkDatabaseProvision(db *sql.DB) {
+	if checkDataTable(db) && checkTypesTable(db) && checkConfigTable(db) {
+		log.Fatalln("Database needs provisioning")
+	}
+}
 
+func checkDataTable(db *sql.DB) bool {
+	var result string
+	row := db.QueryRow("SELECT id, type_id, value, created_at, updated_at FROM data limit 1")
+
+	if err := row.Scan(&result); err != nil {
+		return false
+	}
+
+	return true
+}
+
+func checkTypesTable(db *sql.DB) bool {
+	var result string
+	row := db.QueryRow("SELECT id, name FROM types limit 1")
+
+	if err := row.Scan(&result); err != nil {
+		return false
+	}
+
+	return true
+}
+
+func checkConfigTable(db *sql.DB) bool {
+	var result string
+	row := db.QueryRow("SELECT id, name, value, created_at, updated_at FROM config limit 1")
+
+	if err := row.Scan(&result); err != nil {
+		return false
+	}
+
+	return true
 }
