@@ -42,7 +42,7 @@ func checkDatabaseConnection() *sql.DB {
 		testSelectResult string
 	)
 
-	if filePath, err = filepath.Abs("./" + DBFileName); err != nil {
+	if filePath, err = filepath.Abs("../" + DBFileName); err != nil {
 		if dbFile, err = os.Create(filePath); err != nil {
 			defer dbFile.Close()
 			log.Fatalln("Database file does not exist. Could not create database file.")

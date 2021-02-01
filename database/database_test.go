@@ -1,13 +1,11 @@
-package tests
+package database
 
 import (
 	"testing"
-
-	"github.com/domenicomastrangelo/safe/database"
 )
 
 func TestCheckDatabaseConnection(t *testing.T) {
-	db := database.Check()
+	db := Check()
 
 	if db == nil {
 		t.FailNow()
