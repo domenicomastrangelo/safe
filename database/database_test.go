@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestCheck(t *testing.T) {
+func Test_Check(t *testing.T) {
 	var db interface{}
 
 	db = Check()
@@ -15,7 +15,7 @@ func TestCheck(t *testing.T) {
 	}
 }
 
-func TestCheckDatabaseConnection(t *testing.T) {
+func Test_checkDatabaseConnection(t *testing.T) {
 	var db interface{}
 
 	db = Check()
@@ -25,7 +25,7 @@ func TestCheckDatabaseConnection(t *testing.T) {
 	}
 }
 
-func TestCheckDataTable(t *testing.T) {
+func Test_checkDataTable(t *testing.T) {
 	db := Check()
 
 	var check interface{}
@@ -36,7 +36,7 @@ func TestCheckDataTable(t *testing.T) {
 	}
 }
 
-func TestCheckTypesTable(t *testing.T) {
+func Test_checkTypesTable(t *testing.T) {
 	db := Check()
 
 	var check interface{}
@@ -47,7 +47,7 @@ func TestCheckTypesTable(t *testing.T) {
 	}
 }
 
-func TestCheckConfigTable(t *testing.T) {
+func Test_checkConfigTable(t *testing.T) {
 	db := Check()
 
 	var check interface{}
@@ -58,7 +58,7 @@ func TestCheckConfigTable(t *testing.T) {
 	}
 }
 
-func TestCheckDatabaseProvision(t *testing.T) {
+func Test_checkDatabaseProvision(t *testing.T) {
 	db := Check()
 
 	checkDatabaseProvision(db)
