@@ -66,9 +66,60 @@ func checkDatabaseConnection() *sql.DB {
 // Checks if the database needs to be
 // provisioned
 func checkDatabaseProvision(db *sql.DB) {
-	if checkDataTable(db) && checkTypesTable(db) && checkConfigTable(db) {
-		log.Fatalln("Database needs provisioning")
+	if !checkDataTable(db) || !checkTypesTable(db) || !checkConfigTable(db) {
+		if !provisionDatabase(db) {
+			log.Fatalln("Could not provision the database. Try running with -cleanprovision")
+		}
 	}
+}
+
+func provisionDatabase(db *sql.DB) bool {
+	if !provisionTypesTable(db) || !provisionDataTable(db) || !provisionConfigTable(db) {
+		return false
+	}
+
+	return true
+}
+
+func provisionTypesTable(db *sql.DB) bool {
+	if _, err := db.Exec(`CREATE TABLE IF NOT EXISTS 'types' (
+				id integer auto_increment primary key, 
+				name varchar(255)
+			)`); err != nil {
+		return false
+	}
+
+	return true
+}
+
+func provisionDataTable(db *sql.DB) bool {
+	if _, err := db.Exec(`CREATE TABLE IF NOT EXISTS 'data' (
+				id integer auto_increment primary key, 
+				type_id integer, 
+				value longtext, 
+				created_at datetime, 
+				updated_at datetime,
+				FOREIGN KEY(type_id) REFERENCES types(id)
+			)`); err != nil {
+		return false
+	}
+
+	return true
+}
+
+func provisionConfigTable(db *sql.DB) bool {
+	if _, err := db.Exec(`CREATE TABLE IF NOT EXISTS 'config' (
+				id integer auto_increment primary key, 
+				name varchar(255), 
+				value longtext, 
+				created_at datetime, 
+				updated_at datetime,
+				FOREIGN KEY(type_id) REFERENCES types(id)
+			)`); err != nil {
+		return false
+	}
+
+	return true
 }
 
 func checkDataTable(db *sql.DB) bool {
